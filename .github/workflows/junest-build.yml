@@ -1,0 +1,68 @@
+name: Build
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch: {}
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    name: build junest (${{ matrix.arch }})
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      matrix:
+        include:
+          # TODO: pacstrap install yay and qemu-user-static (there is a arch mismatch)
+          # error: failed to prepare transaction (package architecture is not valid)
+          # :: package qemu-user-static-bin-alt-5.2-6-x86_64 does not have a valid architecture
+          # :: package yay-git-12.4.2.r6.g138c2dd6-1-x86_64 does not have a valid architecture
+          # - arch: aarch64
+          #   platform: linux/arm64
+          #   runs-on: ubuntu-24.04-arm
+          - arch: x86_64
+            platform: linux/amd64
+            runs-on: ubuntu-24.04
+    container:
+      image: ghcr.io/pkgforge/devscripts/archlinux-builder:${{ matrix.arch }}
+      options: --user runner --tmpfs /tmp:exec --privileged
+    steps:
+      - name: build
+        run: |
+          mkdir -p /tmp/dist && cd /tmp/dist
+          git clone https://github.com/fsquillace/junest.git
+          ./junest/bin/junest build -n
+
+      - name: Upload artifact
+        if: ${{ github.ref_name == 'main' }}
+        uses: actions/upload-artifact@v4.4.0
+        with:
+          name: junest-x86_64.tar.gz
+          path: "/tmp/dist"
+          retention-days: 7
+        continue-on-error: true
+
+  release:
+    if: ${{ github.event_name == 'release' }}
+    needs:
+      - build
+    permissions: write-all
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v4.1.8
+        with:
+          name: junest-x86_64.tar.gz
+
+      - name: release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          title: Continuous build
+          automatic_release_tag: continuous
+          prerelease: false
+          draft: false
+          files: |
+            junest-x86_64.tar.gz
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
