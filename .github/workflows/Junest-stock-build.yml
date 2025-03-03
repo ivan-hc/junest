@@ -1,4 +1,4 @@
-name: JuNest Stock release
+name: JuNest Stock Build
 concurrency:
   group: build-${{ github.ref }}
   cancel-in-progress: true
