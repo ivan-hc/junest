@@ -20,7 +20,7 @@ jobs:
       - name: "Checkout source repository"
         uses: actions/checkout@v4
 
-      - name: "List releases"
+      - name: "Release date"
         run: |
           date > latest-release.txt
 
