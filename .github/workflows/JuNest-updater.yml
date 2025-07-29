@@ -22,7 +22,7 @@ jobs:
         sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
         chmod a+x ./junest-updater.sh
         ./junest-updater.sh
-        if ! test -f ./.junest/usr/bin/yay; then exit; fi
+        [ ! -f ./.junest/usr/bin/yay ] && exit 0
         rm -R -f ./*.tar.gz
         tar -czvf junest-x86_64.tar.gz -C ./.junest/ .
         mkdir dist
