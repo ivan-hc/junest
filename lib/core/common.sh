@@ -41,7 +41,7 @@ if [[ $HOST_ARCH == "i686" ]] || [[ $HOST_ARCH == "i386" ]]
 then
     ARCH="x86"
     LD_LIB="${JUNEST_HOME}/lib/ld-linux.so.2"
-elif [[ $HOST_ARCH == "x86_64" ]]
+elif [[ $HOST_ARCH == "x86_64" ]] || [[ $HOST_ARCH == "amd64" ]]
 then
     ARCH="x86_64"
     LD_LIB="${JUNEST_HOME}/lib64/ld-linux-x86-64.so.2"
