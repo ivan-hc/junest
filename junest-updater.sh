@@ -23,10 +23,10 @@ fi
 ./.local/share/junest/bin/junest -- sudo pacman --noconfirm -Rcns yay*
 ./.local/share/junest/bin/junest -- sudo pacman --noconfirm -S --needed git base-devel
 ./.local/share/junest/bin/junest -- git clone https://aur.archlinux.org/yay-git.git
-cd yay || exit 1
+cd yay-git || exit 1
 echo yes | $HOME/.local/share/junest/bin/junest -- makepkg -si
 cd .. || exit 1
-yay_pkgs=$(ls ./yay/* | grep "/yay-.*zst" | xargs)
+yay_pkgs=$(ls ./yay-git/* | grep "/yay-.*zst" | xargs)
 ./.local/share/junest/bin/junest -- sudo pacman --noconfirm -U $yay_pkgs
 
 # DEBLOAT
