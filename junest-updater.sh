@@ -22,12 +22,12 @@ fi
 # INSTALL YAY
 ./.local/share/junest/bin/junest -- sudo pacman --noconfirm -Rcns yay*
 ./.local/share/junest/bin/junest -- sudo pacman --noconfirm -S --needed git base-devel
-./.local/share/junest/bin/junest -- git clone https://aur.archlinux.org/yay.git
+./.local/share/junest/bin/junest -- git clone https://aur.archlinux.org/yay-git.git
 cd yay || exit 1
 echo yes | $HOME/.local/share/junest/bin/junest -- makepkg -si
 cd .. || exit 1
-yayver=$(cat ./yay/PKGBUILD | grep "pkgver=" | head -1 | cut -c 8-)
-./.local/share/junest/bin/junest -- sudo pacman --noconfirm -U ./yay/yay-"$yayver"*.zst ./yay/yay-debug-"$yayver"*.zst
+yay_pkgs=$(ls ./yay/* | grep "/yay-.*zst" | xargs)
+./.local/share/junest/bin/junest -- sudo pacman --noconfirm -U $yay_pkgs
 
 # DEBLOAT
 ./.local/share/junest/bin/junest -- sudo pacman --noconfirm -Rcns base-devel go
