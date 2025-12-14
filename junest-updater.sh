@@ -20,7 +20,7 @@ fi
 ./.local/share/junest/bin/junest -- sudo pacman --noconfirm -Syu
 
 # INSTALL YAY
-./.local/share/junest/bin/junest -- sudo pacman --noconfirm -Rcns yay
+./.local/share/junest/bin/junest -- sudo pacman --noconfirm -Rcns yay*
 ./.local/share/junest/bin/junest -- sudo pacman --noconfirm -S --needed git base-devel
 ./.local/share/junest/bin/junest -- git clone https://aur.archlinux.org/yay.git
 cd yay || exit 1
