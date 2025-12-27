@@ -26,7 +26,7 @@ jobs:
             platform: linux/amd64
             runs-on: ubuntu-24.04
     container:
-      image: ghcr.io/pkgforge/devscripts/archlinux-builder:${{ matrix.arch }}
+      image: ghcr.io/pkgforge-dev/archlinux:latest
       options: --user runner --tmpfs /tmp:exec --privileged
     steps:
       - name: build
