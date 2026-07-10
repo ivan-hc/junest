@@ -3,6 +3,7 @@
     "config:base"
   ],
   "dependencyDashboard": false,
+  "forkProcessing": "enabled",
   "packageRules": [
     {
       "matchPackagePatterns": ["*"],
